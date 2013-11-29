@@ -215,7 +215,8 @@ void op_sub(char rega[], char regb[], char accumulator[], char flags[]){
   SBC
 */
 void op_alu_sbc(char regina[], char reginb[], char regouta[], char flags[]){
-
+  two_complement(reginb);
+  op_adc(regina,reginb,regouta,flags);
 }
 
 
@@ -227,7 +228,11 @@ void op_alu_sbc(char regina[], char reginb[], char regouta[], char flags[]){
   accumulator := rega AND regb
 */
 void op_and(char rega[], char regb[], char accumulator[], char flags[]){
-
+  int i = 0;
+  for(;i <=7;i++)
+  {
+    accumulator[i] = ((rega[i]-48) & (regb[i]-48))+48;
+  }
 }
 /*
   Die Werte in Register rega und Register regb werden logisch geORt, das
@@ -237,7 +242,11 @@ void op_and(char rega[], char regb[], char accumulator[], char flags[]){
   accumulator := rega OR regb
 */
 void op_or(char rega[], char regb[], char accumulator[], char flags[]){
-
+  int i = 0;
+  for(;i <=7;i++)
+  {
+    accumulator[i] = ((rega[i]-48) | (regb[i]-48))+48;
+  }
 } 
 /*
   Die Werte in Register rega und Register regb werden logisch geXORt, das
@@ -247,7 +256,11 @@ void op_or(char rega[], char regb[], char accumulator[], char flags[]){
   accumulator := rega XOR regb
 */
 void op_xor(char rega[], char regb[], char accumulator[], char flags[]){
-
+  int i = 0;
+  for(;i <=7;i++)
+  {
+    accumulator[i] = !(((rega[i]-48) & (regb[i]-48))+48) & (((rega[i]-48) | (regb[i]-48))+48);
+  }
 }
 
 

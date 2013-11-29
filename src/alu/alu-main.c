@@ -60,6 +60,9 @@ void alu_parse_line(char *cmd_line){
     if(!strcmp(opcode,"add")){
       alu(ALU_OP_ADD, rega, regb, accumulator, flags);
     }
+    if(!strcmp(opcode,"adc")){
+      alu(ALU_OP_ADD_WITH_CARRY, rega, regb, accumulator, flags);
+    }
     if(!strcmp(opcode,"sub"))
       alu(ALU_OP_SUB, rega, regb, accumulator, flags);
     if(!strcmp(opcode,"and"))
