@@ -259,7 +259,7 @@ void op_xor(char rega[], char regb[], char accumulator[], char flags[]){
   int i = 0;
   for(;i <=7;i++)
   {
-    accumulator[i] = !(((rega[i]-48) & (regb[i]-48))+48) & (((rega[i]-48) | (regb[i]-48))+48);
+    accumulator[i] = (!(((rega[i]-48) & (regb[i]-48))+48)) & (((rega[i]-48) | (regb[i]-48))+48);
   }
 }
 
@@ -269,13 +269,27 @@ void op_xor(char rega[], char regb[], char accumulator[], char flags[]){
   rega := not(rega)
 */
 void op_not_a(char rega[], char regb[], char accumulator[], char flags[]){
-
+  int i = 0;
+  for(;i <= 7;i++)
+  {
+    if(rega[i] == '0')
+      rega[i] = '1';
+    else
+      rega[i] = '0';
+  }
 }
 
 
 /* Einer Komplement von Register regb */
 void op_not_b(char rega[], char regb[], char accumulator[], char flags[]){
-
+  int i = 0;
+  for(;i <= 7;i++)
+  {
+    if(regb[i] == '0')
+      regb[i] = '1';
+    else
+      regb[i] = '0';
+  }
 }
 
 
@@ -300,7 +314,11 @@ void op_neg_b(char rega[], char regb[], char accumulator[], char flags[]){
   asl
 */
 void op_alu_asl(char regina[], char reginb[], char regouta[], char flags[]){
-
+  int i = 0;
+  for(;i < 7;i++)
+  {
+    regina[i+1] = regina[i];
+  }
 }
 
 
@@ -309,14 +327,30 @@ void op_alu_asl(char regina[], char reginb[], char regouta[], char flags[]){
   lsr
 */
 void op_alu_lsr(char regina[], char reginb[], char regouta[], char flags[]){
-
+  int i = 7;
+  for(;i > 0;i++)
+  {
+    regina[i-1] = regina[i];
+  }
 }
 /*
   rotate 
   rotate left
 */
 void op_alu_rol(char regina[], char reginb[], char regouta[], char flags[]){
+  char x = regina[7] - 48;
+  if(x)
+    setCarryflag(flags);
+  else
+    clearCarryflag(flags);
+
+  int i = 0;
+  for(;i < 7;i++)
+  {
+    regina[i+1] = regina[i];
+  }
   
+  regina[0] = getCarryflag(flags);
 }
 /*
   rotate 
@@ -324,7 +358,17 @@ void op_alu_rol(char regina[], char reginb[], char regouta[], char flags[]){
   Move each of the bits in  A one place to the right. Bit 7 is filled with the current value of the carry flag whilst the old bit 0 becomes the new carry flag value.
 */
 void op_alu_ror(char regina[], char reginb[], char regouta[], char flags[]){
-  
+  char x = regina[0] - 48;
+  if(x)
+    setCarryflag(flags);
+  else
+    clearCarryflag(flags);
+
+  int i = 7;
+  for(;i>0;i++)
+  {
+    regina[i-1] = i;
+  }
 }
 
 
